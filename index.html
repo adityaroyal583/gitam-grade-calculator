@@ -43,35 +43,45 @@
 
   <!-- Top Navigation Bar -->
   <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-[#007367] text-white flex items-center justify-center font-extrabold text-sm shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-lg bg-[#007367] text-white flex items-center justify-center font-extrabold text-sm shadow-sm shrink-0">
           GU
         </div>
-        <div>
-          <h1 class="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
-            GITAM Visakhapatnam Grade & CGPA Calculator
+        <div class="truncate">
+          <h1 class="text-xs sm:text-base font-bold tracking-tight text-slate-900 dark:text-white leading-tight truncate">
+            GITAM Visakhapatnam Grade &amp; CGPA Calculator
           </h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-            Sessional-2 Target Advisor &bull; 30:45:25 Theory &bull; 70:30 Integrated Lab
+          <p class="text-xs text-slate-500 dark:text-slate-400 hidden md:block">
+            Sessional-2 Target Advisor &bull; For All Branches &amp; All Years
           </p>
         </div>
       </div>
 
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         <button
           id="openAddModalBtn"
           type="button"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-[#007367] hover:bg-[#00564d] text-white shadow-sm transition cursor-pointer"
+          class="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-[#007367] hover:bg-[#00564d] text-white shadow-sm transition cursor-pointer"
         >
           <span class="text-base leading-none">+</span> Add Course
+        </button>
+
+        <button
+          id="shareBtn"
+          type="button"
+          title="Share Calculator Link"
+          class="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer"
+        >
+          <span>🔗</span>
+          <span id="shareLabel" class="hidden sm:inline">Share</span>
         </button>
 
         <button
           id="resetBtn"
           type="button"
           title="Reset to Semester-1 Defaults"
-          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer"
+          class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer"
         >
           Reset
         </button>
@@ -80,7 +90,7 @@
           id="themeToggleBtn"
           type="button"
           aria-label="Toggle Light/Dark Mode"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 transition cursor-pointer"
+          class="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 transition cursor-pointer"
         >
           <span id="themeIcon">🌙</span>
           <span id="themeLabel" class="hidden sm:inline">Dark</span>
@@ -95,12 +105,15 @@
     <section class="rounded-xl border border-amber-300/80 dark:border-amber-700/60 bg-amber-50/90 dark:bg-amber-950/30 p-4 text-xs sm:text-sm text-amber-950 dark:text-amber-200">
       <div class="flex items-start gap-3">
         <span class="text-lg leading-none mt-0.5">ℹ️</span>
-        <div class="space-y-1">
+        <div class="space-y-1.5">
           <p class="font-semibold">
             Note &amp; Disclaimer — Built by Y. Aditya Sreeram Charan Rohith Royal (ECE Student, GITAM Visakhapatnam)
           </p>
           <p class="text-amber-900/90 dark:text-amber-200/85 leading-relaxed">
-            This tool is designed purely to give you a practical estimate of what you need to score in <strong>Sessional 2</strong> to secure an <strong>O</strong> or <strong>A+</strong> overall grade. All weighting formulas and grade thresholds used here are based on senior student reviews rather than official university software—treat these projections as a planning guide, not a definite official result.
+            I have created this tool purely to give us all a practical estimate of what we need to score in <strong>Sessional 2</strong> to secure an <strong>O</strong> or <strong>A+</strong> overall grade. All weighting formulas and grade thresholds used here are based on reviews from our seniors rather than official university software—so treat these projections as a planning guide, not a definite official result.
+          </p>
+          <p class="text-amber-950 dark:text-amber-100 font-medium leading-relaxed">
+            🎓 <strong>Applicable for Any Year &amp; Any Branch:</strong> Even though Semester-1 ECE subjects are loaded by default, students from any year or branch can use this calculator—simply remove the subjects you don't need and add your own subjects using the <strong>+ Add Course</strong> button at the top.
           </p>
         </div>
       </div>
@@ -254,7 +267,7 @@
         Created by Y. Aditya Sreeram Charan Rohith Royal &bull; B.Tech ECE Student, GITAM University, Visakhapatnam
       </p>
       <p class="leading-relaxed">
-        <strong>Disclaimer:</strong> This calculator is intended solely to give students an approximate view of how much they need to score in Sessional 2 to maintain or reach target grades (O / A+). All underlying weightages and grade boundaries are compiled from senior student reviews and may differ from official GITAM examination board computations.
+        <strong>Disclaimer:</strong> I created this tool purely to give us all a practical estimate of what we need to score in Sessional 2 to secure an O or A+ overall grade. It is applicable for students of any year and any branch—just customize the subjects using the <strong>+ Add Course</strong> button. All weightages and grade boundaries are based on senior reviews and may differ from official GITAM examination board computations.
       </p>
     </div>
   </footer>
@@ -265,7 +278,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h3 class="text-lg font-bold text-slate-900 dark:text-white">Add Custom Course</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Select the grading structure used by your branch/subject</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Works for any year &amp; branch — pick the grading pattern below</p>
         </div>
         <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-xl font-bold px-2 cursor-pointer">&times;</button>
       </div>
@@ -360,6 +373,8 @@
   </div>
 
   <script>
+    const STORAGE_KEY = 'gitam_vizag_calc_courses_v2';
+
     const GRADE_OPTIONS = [
       { label: 'O', points: 10 },
       { label: 'A+', points: 9 },
@@ -368,7 +383,6 @@
       { label: 'B', points: 6 }
     ];
 
-    // Ordered lowest to highest for S2 min/max scanning
     const GRADE_ASCENDING = [
       { label: 'B', points: 6 },
       { label: 'B+', points: 7 },
@@ -386,8 +400,7 @@
         credits: 4,
         s1: 10,
         s2: 9,
-        internals: 10,
-        custom: false
+        internals: 10
       },
       {
         id: 'phys1001',
@@ -398,8 +411,7 @@
         s1: 10,
         s2: 9,
         internals: 10,
-        lab: 10,
-        custom: false
+        lab: 10
       },
       {
         id: 'eece2211',
@@ -410,8 +422,7 @@
         s1: 9,
         s2: 9,
         internals: 10,
-        lab: 10,
-        custom: false
+        lab: 10
       },
       {
         id: 'csen1031',
@@ -419,8 +430,7 @@
         name: 'Programming For Problem Solving - 1',
         type: 'direct',
         credits: 3,
-        directGrade: 10,
-        custom: false
+        directGrade: 10
       },
       {
         id: 'hsmch102',
@@ -428,8 +438,7 @@
         name: 'Universal Human Values 2: Understanding Harmony',
         type: 'pass_fail',
         credits: 3,
-        passed: true,
-        custom: false
+        passed: true
       },
       {
         id: 'ient1051',
@@ -437,8 +446,7 @@
         name: 'Fundamentals of Entrepreneurship',
         type: 'direct',
         credits: 2,
-        directGrade: 10,
-        custom: false
+        directGrade: 10
       },
       {
         id: 'lang1242',
@@ -446,8 +454,7 @@
         name: 'Communicative English - I',
         type: 'direct',
         credits: 2,
-        directGrade: 10,
-        custom: false
+        directGrade: 10
       },
       {
         id: 'pols1052',
@@ -455,15 +462,30 @@
         name: 'The Indian Constitution',
         type: 'direct',
         credits: 1,
-        directGrade: 10,
-        custom: false
+        directGrade: 10
       }
     ];
 
-    let courses = JSON.parse(JSON.stringify(DEFAULT_COURSES));
+    function loadCourses() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_COURSES));
+    }
+
+    function saveCourses() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
+      } catch (e) {}
+    }
+
+    let courses = loadCourses();
     let selectedModalType = 'theory_lab';
 
-    // Convert raw score to GITAM grade using strict ceiling threshold (>9.0 => O, >8.0 => A+, etc.)
     function scoreToGrade(score) {
       if (score > 9.0) return { label: 'O', points: 10 };
       if (score > 8.0) return { label: 'A+', points: 9 };
@@ -527,8 +549,8 @@
         };
       });
 
-      const minOutcome = outcomes[0]; // S2 = B
-      const maxOutcome = outcomes[outcomes.length - 1]; // S2 = O
+      const minOutcome = outcomes[0];
+      const maxOutcome = outcomes[outcomes.length - 1];
 
       const minForO = outcomes.find(o => o.resultingPoints === 10) || null;
       const minForAPlus = outcomes.find(o => o.resultingPoints >= 9) || null;
@@ -570,6 +592,8 @@
     }
 
     function renderAll() {
+      saveCourses();
+
       const radarGrid = document.getElementById('radarGrid');
       const sessionalGrid = document.getElementById('sessionalSubjectsGrid');
       const directGrid = document.getElementById('directSubjectsGrid');
@@ -582,6 +606,7 @@
 
       let totalCredits = 0;
       let totalWeightedPoints = 0;
+      let hasSessionalCourses = false;
 
       courses.forEach(course => {
         const evalResult = evaluateCourse(course);
@@ -589,11 +614,10 @@
         totalCredits += course.credits;
         totalWeightedPoints += weightedPts;
 
-        // 1. Render Sessional / Integrated Lab Cards + Radar Cards
         if (course.type === 'theory' || course.type === 'theory_lab') {
+          hasSessionalCourses = true;
           const targetInfo = analyzeS2Targets(course);
 
-          // Radar Card
           const oText = targetInfo.minForO
             ? `<span class="font-bold text-emerald-600 dark:text-emerald-400">${targetInfo.minForO} to O</span>`
             : `<span class="font-semibold text-rose-500 dark:text-rose-400">Not reachable</span>`;
@@ -609,7 +633,7 @@
                   <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">${course.code} &bull; ${course.credits} Cr</span>
                   <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">${course.name}</h3>
                 </div>
-                <span class="px-2 py-0.5 rounded text-[11px] font-bold border ${badgeColorClasses(evalResult.gradeLabel)}">
+                <span class="px-2 py-0.5 rounded text-[11px] font-bold border shrink-0 ${badgeColorClasses(evalResult.gradeLabel)}">
                   Now: ${evalResult.gradeLabel}
                 </span>
               </div>
@@ -630,7 +654,6 @@
             </div>
           `;
 
-          // S2 Quick Scenario Pills
           const scenarioButtonsHtml = targetInfo.outcomes.map(o => {
             const isSelected = Number(course.s2) === o.s2Points;
             return `
@@ -656,17 +679,6 @@
             </div>
           ` : '';
 
-          const deleteBtnHtml = course.custom ? `
-            <button
-              type="button"
-              data-delete-id="${course.id}"
-              class="delete-course-btn text-xs text-rose-500 hover:text-rose-700 font-semibold ml-2 cursor-pointer"
-              title="Remove custom course"
-            >
-              Remove
-            </button>
-          ` : '';
-
           sessionalGrid.innerHTML += `
             <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
               <div class="flex items-start justify-between gap-3">
@@ -676,7 +688,14 @@
                     <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
                       ${course.credits} Credits &bull; ${course.type === 'theory_lab' ? '70:30 Theory+Lab' : '30:45:25 Theory'}
                     </span>
-                    ${deleteBtnHtml}
+                    <button
+                      type="button"
+                      data-delete-id="${course.id}"
+                      class="delete-course-btn text-[11px] text-rose-500 hover:text-rose-700 dark:hover:text-rose-400 font-semibold cursor-pointer"
+                      title="Remove this subject"
+                    >
+                      Remove
+                    </button>
                   </div>
                   <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-1">${course.name}</h3>
                 </div>
@@ -717,17 +736,6 @@
             </div>
           `;
         } else {
-          // 2. Direct Grade or Pass/Fail Card
-          const deleteBtnHtml = course.custom ? `
-            <button
-              type="button"
-              data-delete-id="${course.id}"
-              class="delete-course-btn text-xs text-rose-500 hover:text-rose-700 font-semibold cursor-pointer"
-            >
-              Remove
-            </button>
-          ` : '';
-
           const controlHtml = course.type === 'pass_fail' ? `
             <div class="grid grid-cols-2 gap-2">
               <button
@@ -766,12 +774,19 @@
             <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex flex-col justify-between gap-3">
               <div class="flex items-start justify-between gap-2">
                 <div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-xs font-bold text-[#007367] dark:text-teal-400">${course.code}</span>
                     <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
                       ${course.credits} Credits
                     </span>
-                    ${deleteBtnHtml}
+                    <button
+                      type="button"
+                      data-delete-id="${course.id}"
+                      class="delete-course-btn text-[11px] text-rose-500 hover:text-rose-700 dark:hover:text-rose-400 font-semibold cursor-pointer"
+                      title="Remove this subject"
+                    >
+                      Remove
+                    </button>
                   </div>
                   <h3 class="text-sm font-bold text-slate-900 dark:text-white mt-1 leading-snug">${course.name}</h3>
                 </div>
@@ -784,7 +799,6 @@
           `;
         }
 
-        // 3. CGPA Table Row
         tableBody.innerHTML += `
           <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
             <td class="py-3 px-4 font-mono text-xs font-semibold text-slate-600 dark:text-slate-300">${course.code}</td>
@@ -805,14 +819,17 @@
         `;
       });
 
-      // Exact unrounded CGPA calculation
+      if (!hasSessionalCourses) {
+        radarGrid.innerHTML = `<p class="text-xs text-slate-500 dark:text-slate-400 col-span-full">No Sessional-1/2 subjects active. Click <strong>+ Add Course</strong> to add Theory or Theory+Lab courses.</p>`;
+      }
+
       const exactCgpa = totalCredits > 0 ? (totalWeightedPoints / totalCredits) : 0;
       const cgpaString = exactCgpa.toFixed(4);
-      const overallGrade = scoreToGrade(exactCgpa);
+      const overallGrade = totalCredits > 0 ? scoreToGrade(exactCgpa).label : '—';
 
       document.getElementById('exactCgpaDisplay').textContent = cgpaString;
       document.getElementById('tableExactCgpa').textContent = cgpaString;
-      document.getElementById('overallGradeBadge').textContent = `Grade: ${overallGrade.label}`;
+      document.getElementById('overallGradeBadge').textContent = `Grade: ${overallGrade}`;
       document.getElementById('cgpaFormulaSummary').textContent =
         `Total Weighted Points: ${totalWeightedPoints} ÷ ${totalCredits} Credits`;
       document.getElementById('totalCreditsDisplay').textContent = totalCredits;
@@ -820,7 +837,7 @@
         `${courses.length} course${courses.length === 1 ? '' : 's'} active in semester`;
 
       document.getElementById('tableTotalCredits').textContent = totalCredits;
-      document.getElementById('tableFinalGrade').textContent = overallGrade.label;
+      document.getElementById('tableFinalGrade').textContent = overallGrade;
       document.getElementById('tableTotalPoints').textContent = totalWeightedPoints;
 
       attachDynamicListeners();
@@ -900,6 +917,27 @@
       applyTheme(nextTheme);
     });
 
+    // Share Button
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const shareData = {
+        title: 'GITAM Visakhapatnam Grade & Sessional-2 Target Calculator',
+        text: 'Check what grade you need in Sessional 2 to get O or A+ at GITAM Vizag (works for all branches & years):',
+        url: window.location.href
+      };
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch (err) {}
+      }
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const label = document.getElementById('shareLabel');
+        label.textContent = 'Copied!';
+        setTimeout(() => { label.textContent = 'Share'; }, 2000);
+      } catch (err) {}
+    });
+
     // Reset Button
     document.getElementById('resetBtn').addEventListener('click', () => {
       courses = JSON.parse(JSON.stringify(DEFAULT_COURSES));
@@ -950,8 +988,7 @@
         code: codeInput.toUpperCase(),
         name: nameInput,
         type: selectedModalType,
-        credits: creditsInput,
-        custom: true
+        credits: creditsInput
       };
 
       if (selectedModalType === 'theory_lab') {
