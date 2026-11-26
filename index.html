@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GITAM Visakhapatnam — Semester Grade & Sessional-2 Target Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gitam: {
+              teal: '#007367',
+              tealDark: '#00564d',
+              gold: '#b8860b'
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+      background-size: 1rem;
+      padding-right: 2rem;
+    }
+    .dark select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#007367] text-white flex items-center justify-center font-extrabold text-sm shadow-sm">
+          GU
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+            GITAM Visakhapatnam Grade & CGPA Calculator
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
+            Sessional-2 Target Advisor &bull; 30:45:25 Theory &bull; 70:30 Integrated Lab
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button
+          id="openAddModalBtn"
+          type="button"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-[#007367] hover:bg-[#00564d] text-white shadow-sm transition cursor-pointer"
+        >
+          <span class="text-base leading-none">+</span> Add Course
+        </button>
+
+        <button
+          id="resetBtn"
+          type="button"
+          title="Reset to Semester-1 Defaults"
+          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer"
+        >
+          Reset
+        </button>
+
+        <button
+          id="themeToggleBtn"
+          type="button"
+          aria-label="Toggle Light/Dark Mode"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 transition cursor-pointer"
+        >
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel" class="hidden sm:inline">Dark</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-1">
+
+    <!-- Top Attribution & Disclaimer Banner -->
+    <section class="rounded-xl border border-amber-300/80 dark:border-amber-700/60 bg-amber-50/90 dark:bg-amber-950/30 p-4 text-xs sm:text-sm text-amber-950 dark:text-amber-200">
+      <div class="flex items-start gap-3">
+        <span class="text-lg leading-none mt-0.5">ℹ️</span>
+        <div class="space-y-1">
+          <p class="font-semibold">
+            Note &amp; Disclaimer — Built by Y. Aditya Sreeram Charan Rohith Royal (ECE Student, GITAM Visakhapatnam)
+          </p>
+          <p class="text-amber-900/90 dark:text-amber-200/85 leading-relaxed">
+            This tool is designed purely to give you a practical estimate of what you need to score in <strong>Sessional 2</strong> to secure an <strong>O</strong> or <strong>A+</strong> overall grade. All weighting formulas and grade thresholds used here are based on senior student reviews rather than official university software—treat these projections as a planning guide, not a definite official result.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Summary & CGPA KPI Strip -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="md:col-span-2 rounded-xl bg-gradient-to-br from-[#007367] to-[#004d45] text-white p-5 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs uppercase tracking-wider font-semibold text-teal-100">Exact Semester CGPA</span>
+          <span id="overallGradeBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white">
+            Grade: O
+          </span>
+        </div>
+        <div class="my-2 flex items-baseline gap-3">
+          <span id="exactCgpaDisplay" class="text-4xl sm:text-5xl font-extrabold tracking-tight">9.5000</span>
+          <span class="text-sm text-teal-100">/ 10.0000</span>
+        </div>
+        <p id="cgpaFormulaSummary" class="text-xs text-teal-100/90">
+          Total Weighted Points: 209 &divide; 22 Credits
+        </p>
+      </div>
+
+      <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm flex flex-col justify-between">
+        <span class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">Active Credits</span>
+        <div class="my-2">
+          <span id="totalCreditsDisplay" class="text-3xl font-extrabold text-slate-900 dark:text-white">22</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400 ml-1">credits counted</span>
+        </div>
+        <p id="courseCountSummary" class="text-xs text-slate-500 dark:text-slate-400">
+          8 courses active in semester
+        </p>
+      </div>
+
+      <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm flex flex-col justify-between">
+        <span class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">Grading Threshold Rule</span>
+        <div class="my-1.5 text-xs space-y-1 text-slate-700 dark:text-slate-300 font-medium">
+          <div class="flex justify-between"><span>&gt; 9.00 – 10.00</span><span class="font-bold text-emerald-600 dark:text-emerald-400">O (10)</span></div>
+          <div class="flex justify-between"><span>&gt; 8.00 – 9.00</span><span class="font-bold text-teal-600 dark:text-teal-400">A+ (9)</span></div>
+          <div class="flex justify-between"><span>&gt; 7.00 – 8.00</span><span class="font-bold text-sky-600 dark:text-sky-400">A (8)</span></div>
+          <div class="flex justify-between"><span>&gt; 6.00 – 7.00</span><span class="font-bold text-indigo-600 dark:text-indigo-400">B+ (7)</span></div>
+          <div class="flex justify-between"><span>&le; 6.00</span><span class="font-bold text-slate-500 dark:text-slate-400">B (6)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sessional-2 Target Radar -->
+    <section class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+        <div>
+          <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span>🎯 Sessional-2 Min &amp; Max Target Radar</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Based on your current Sessional 1, Internals, and Lab grades, here is the exact Sessional-2 range needed for <strong>O</strong> or <strong>A+</strong>.
+          </p>
+        </div>
+      </div>
+      <div id="radarGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- Section 1: Sessional-Based Exam Subjects -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+            1. Sessional &amp; Integrated Lab Subjects
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Theory = 30% S1 + 45% S2 + 25% Internals &bull; Integrated Theory + Lab = 70% Theory + 30% Lab
+          </p>
+        </div>
+      </div>
+      <div id="sessionalSubjectsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- Section 2: Direct-Grade & Pass/Fail Subjects -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+            2. Direct-Grade &amp; Pass/Fail Courses
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Select your final grade directly (or Pass/Fail for Universal Human Values 2, where Pass = O).
+          </p>
+        </div>
+      </div>
+      <div id="directSubjectsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- Section 3: Credit-Weighted Semester CGPA Breakdown Table -->
+    <section class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+            3. Credit-Weighted Semester CGPA Breakdown
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Exact weighted calculation: &Sigma;(Credits &times; Grade Points) &divide; Total Credits
+          </p>
+        </div>
+        <div class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+          Exact CGPA: <span id="tableExactCgpa" class="font-extrabold text-[#007367] dark:text-teal-400">9.5000</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-slate-800/70 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
+              <th class="py-3 px-4 font-semibold">Code</th>
+              <th class="py-3 px-4 font-semibold">Course Name</th>
+              <th class="py-3 px-4 font-semibold">Structure</th>
+              <th class="py-3 px-4 font-semibold text-center">Credits (C)</th>
+              <th class="py-3 px-4 font-semibold text-center">Raw Score</th>
+              <th class="py-3 px-4 font-semibold text-center">Final Grade</th>
+              <th class="py-3 px-4 font-semibold text-center">Grade Pt (GP)</th>
+              <th class="py-3 px-4 font-semibold text-right">C &times; GP</th>
+            </tr>
+          </thead>
+          <tbody id="cgpaTableBody" class="divide-y divide-slate-200 dark:divide-slate-800">
+            <!-- Populated dynamically -->
+          </tbody>
+          <tfoot>
+            <tr class="bg-slate-100/80 dark:bg-slate-800/90 font-bold text-slate-900 dark:text-white border-t-2 border-slate-300 dark:border-slate-700">
+              <td colspan="3" class="py-3.5 px-4">Total Semester Standing</td>
+              <td id="tableTotalCredits" class="py-3.5 px-4 text-center">22</td>
+              <td class="py-3.5 px-4 text-center text-slate-400">—</td>
+              <td id="tableFinalGrade" class="py-3.5 px-4 text-center text-[#007367] dark:text-teal-400">O</td>
+              <td class="py-3.5 px-4 text-center text-slate-400">—</td>
+              <td id="tableTotalPoints" class="py-3.5 px-4 text-right">209</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Attribution & Disclaimer Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-xs text-slate-600 dark:text-slate-400 space-y-2">
+      <p class="font-semibold text-slate-800 dark:text-slate-200">
+        Created by Y. Aditya Sreeram Charan Rohith Royal &bull; B.Tech ECE Student, GITAM University, Visakhapatnam
+      </p>
+      <p class="leading-relaxed">
+        <strong>Disclaimer:</strong> This calculator is intended solely to give students an approximate view of how much they need to score in Sessional 2 to maintain or reach target grades (O / A+). All underlying weightages and grade boundaries are compiled from senior student reviews and may differ from official GITAM examination board computations.
+      </p>
+    </div>
+  </footer>
+
+  <!-- 3-Type Add Course Modal -->
+  <div id="addCourseModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 backdrop-blur-xs p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">Add Custom Course</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Select the grading structure used by your branch/subject</p>
+        </div>
+        <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-xl font-bold px-2 cursor-pointer">&times;</button>
+      </div>
+
+      <!-- 3 Course Type Buttons -->
+      <div class="space-y-2">
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          1. Choose Subject Grading Type
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <button
+            type="button"
+            data-type="theory_lab"
+            class="course-type-btn p-3 rounded-xl border-2 text-left transition cursor-pointer border-[#007367] bg-teal-50/70 dark:bg-teal-950/40"
+          >
+            <div class="text-xs font-bold text-slate-900 dark:text-white">Theory + Lab</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Physics / EEE Type (70:30)</div>
+          </button>
+
+          <button
+            type="button"
+            data-type="theory"
+            class="course-type-btn p-3 rounded-xl border-2 text-left transition cursor-pointer border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+          >
+            <div class="text-xs font-bold text-slate-900 dark:text-white">Theory Only</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Calculus Type (30:45:25)</div>
+          </button>
+
+          <button
+            type="button"
+            data-type="direct"
+            class="course-type-btn p-3 rounded-xl border-2 text-left transition cursor-pointer border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+          >
+            <div class="text-xs font-bold text-slate-900 dark:text-white">Direct Grade</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Constitution / English Type</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Course Metadata Inputs -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="sm:col-span-1">
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Course Code</label>
+          <input
+            id="newCourseCode"
+            type="text"
+            placeholder="e.g. CSEN2011"
+            class="w-full px-3 py-2 rounded-lg text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#007367]"
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Subject Name</label>
+          <input
+            id="newCourseName"
+            type="text"
+            placeholder="e.g. Data Structures"
+            class="w-full px-3 py-2 rounded-lg text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#007367]"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Credits</label>
+        <input
+          id="newCourseCredits"
+          type="number"
+          min="1"
+          max="10"
+          step="1"
+          value="3"
+          class="w-full px-3 py-2 rounded-lg text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#007367]"
+        />
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button
+          id="cancelModalBtn"
+          type="button"
+          class="px-4 py-2 rounded-lg text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+        >
+          Cancel
+        </button>
+        <button
+          id="confirmAddCourseBtn"
+          type="button"
+          class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-[#007367] hover:bg-[#00564d] text-white shadow-sm cursor-pointer"
+        >
+          Add Subject to Calculator
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GRADE_OPTIONS = [
+      { label: 'O', points: 10 },
+      { label: 'A+', points: 9 },
+      { label: 'A', points: 8 },
+      { label: 'B+', points: 7 },
+      { label: 'B', points: 6 }
+    ];
+
+    // Ordered lowest to highest for S2 min/max scanning
+    const GRADE_ASCENDING = [
+      { label: 'B', points: 6 },
+      { label: 'B+', points: 7 },
+      { label: 'A', points: 8 },
+      { label: 'A+', points: 9 },
+      { label: 'O', points: 10 }
+    ];
+
+    const DEFAULT_COURSES = [
+      {
+        id: 'math1341',
+        code: 'MATH1341',
+        name: 'Calculus and Differential Equations',
+        type: 'theory',
+        credits: 4,
+        s1: 10,
+        s2: 9,
+        internals: 10,
+        custom: false
+      },
+      {
+        id: 'phys1001',
+        code: 'PHYS1001 / 1001P',
+        name: 'Physics (Theory + Lab)',
+        type: 'theory_lab',
+        credits: 4,
+        s1: 10,
+        s2: 9,
+        internals: 10,
+        lab: 10,
+        custom: false
+      },
+      {
+        id: 'eece2211',
+        code: '24EECE2211 / 2211P',
+        name: 'Fundamentals of Electrical & Electronics Engg.',
+        type: 'theory_lab',
+        credits: 3,
+        s1: 9,
+        s2: 9,
+        internals: 10,
+        lab: 10,
+        custom: false
+      },
+      {
+        id: 'csen1031',
+        code: '24CSEN1031',
+        name: 'Programming For Problem Solving - 1',
+        type: 'direct',
+        credits: 3,
+        directGrade: 10,
+        custom: false
+      },
+      {
+        id: 'hsmch102',
+        code: 'HSMCH102',
+        name: 'Universal Human Values 2: Understanding Harmony',
+        type: 'pass_fail',
+        credits: 3,
+        passed: true,
+        custom: false
+      },
+      {
+        id: 'ient1051',
+        code: 'IENT1051',
+        name: 'Fundamentals of Entrepreneurship',
+        type: 'direct',
+        credits: 2,
+        directGrade: 10,
+        custom: false
+      },
+      {
+        id: 'lang1242',
+        code: 'LANG1242',
+        name: 'Communicative English - I',
+        type: 'direct',
+        credits: 2,
+        directGrade: 10,
+        custom: false
+      },
+      {
+        id: 'pols1052',
+        code: 'POLS1052',
+        name: 'The Indian Constitution',
+        type: 'direct',
+        credits: 1,
+        directGrade: 10,
+        custom: false
+      }
+    ];
+
+    let courses = JSON.parse(JSON.stringify(DEFAULT_COURSES));
+    let selectedModalType = 'theory_lab';
+
+    // Convert raw score to GITAM grade using strict ceiling threshold (>9.0 => O, >8.0 => A+, etc.)
+    function scoreToGrade(score) {
+      if (score > 9.0) return { label: 'O', points: 10 };
+      if (score > 8.0) return { label: 'A+', points: 9 };
+      if (score > 7.0) return { label: 'A', points: 8 };
+      if (score > 6.0) return { label: 'B+', points: 7 };
+      return { label: 'B', points: 6 };
+    }
+
+    function pointsToLabel(pts) {
+      const found = GRADE_OPTIONS.find(g => g.points === pts);
+      return found ? found.label : 'F';
+    }
+
+    function computeRawScoreWithS2(course, s2Points) {
+      const theoryScore = 0.30 * course.s1 + 0.45 * s2Points + 0.25 * course.internals;
+      if (course.type === 'theory_lab') {
+        return 0.70 * theoryScore + 0.30 * course.lab;
+      }
+      return theoryScore;
+    }
+
+    function evaluateCourse(course) {
+      if (course.type === 'pass_fail') {
+        return {
+          rawScore: null,
+          gradeLabel: course.passed ? 'O (Pass)' : 'F (Fail)',
+          gradePoints: course.passed ? 10 : 0,
+          structureLabel: 'Pass / Fail (Pass → O)'
+        };
+      }
+
+      if (course.type === 'direct') {
+        return {
+          rawScore: null,
+          gradeLabel: pointsToLabel(course.directGrade),
+          gradePoints: course.directGrade,
+          structureLabel: 'Direct Grade'
+        };
+      }
+
+      const raw = computeRawScoreWithS2(course, course.s2);
+      const grade = scoreToGrade(raw);
+      return {
+        rawScore: raw,
+        gradeLabel: grade.label,
+        gradePoints: grade.points,
+        structureLabel: course.type === 'theory_lab' ? '70% Theory + 30% Lab' : '30:45:25 Theory'
+      };
+    }
+
+    function analyzeS2Targets(course) {
+      const outcomes = GRADE_ASCENDING.map(g => {
+        const raw = computeRawScoreWithS2(course, g.points);
+        const resultingGrade = scoreToGrade(raw);
+        return {
+          s2Label: g.label,
+          s2Points: g.points,
+          rawScore: raw,
+          resultingLabel: resultingGrade.label,
+          resultingPoints: resultingGrade.points
+        };
+      });
+
+      const minOutcome = outcomes[0]; // S2 = B
+      const maxOutcome = outcomes[outcomes.length - 1]; // S2 = O
+
+      const minForO = outcomes.find(o => o.resultingPoints === 10) || null;
+      const minForAPlus = outcomes.find(o => o.resultingPoints >= 9) || null;
+
+      return {
+        outcomes,
+        minSubjectGrade: minOutcome.resultingLabel,
+        maxSubjectGrade: maxOutcome.resultingLabel,
+        minForO: minForO ? minForO.s2Label : null,
+        minForAPlus: minForAPlus ? minForAPlus.s2Label : null
+      };
+    }
+
+    function badgeColorClasses(label) {
+      if (label.startsWith('O')) return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800';
+      if (label === 'A+') return 'bg-teal-100 text-teal-800 dark:bg-teal-950/80 dark:text-teal-300 border-teal-300 dark:border-teal-800';
+      if (label === 'A') return 'bg-sky-100 text-sky-800 dark:bg-sky-950/80 dark:text-sky-300 border-sky-300 dark:border-sky-800';
+      if (label === 'B+') return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950/80 dark:text-indigo-300 border-indigo-300 dark:border-indigo-800';
+      if (label.startsWith('F')) return 'bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300 border-rose-300 dark:border-rose-800';
+      return 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300 border-slate-300 dark:border-slate-700';
+    }
+
+    function renderGradeSelect(courseId, field, currentVal) {
+      const optionsHtml = GRADE_OPTIONS.map(opt => `
+        <option value="${opt.points}" ${Number(currentVal) === opt.points ? 'selected' : ''}>
+          ${opt.label} (${opt.points})
+        </option>
+      `).join('');
+
+      return `
+        <select
+          data-course-id="${courseId}"
+          data-field="${field}"
+          class="grade-select w-full px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#007367] cursor-pointer"
+        >
+          ${optionsHtml}
+        </select>
+      `;
+    }
+
+    function renderAll() {
+      const radarGrid = document.getElementById('radarGrid');
+      const sessionalGrid = document.getElementById('sessionalSubjectsGrid');
+      const directGrid = document.getElementById('directSubjectsGrid');
+      const tableBody = document.getElementById('cgpaTableBody');
+
+      radarGrid.innerHTML = '';
+      sessionalGrid.innerHTML = '';
+      directGrid.innerHTML = '';
+      tableBody.innerHTML = '';
+
+      let totalCredits = 0;
+      let totalWeightedPoints = 0;
+
+      courses.forEach(course => {
+        const evalResult = evaluateCourse(course);
+        const weightedPts = course.credits * evalResult.gradePoints;
+        totalCredits += course.credits;
+        totalWeightedPoints += weightedPts;
+
+        // 1. Render Sessional / Integrated Lab Cards + Radar Cards
+        if (course.type === 'theory' || course.type === 'theory_lab') {
+          const targetInfo = analyzeS2Targets(course);
+
+          // Radar Card
+          const oText = targetInfo.minForO
+            ? `<span class="font-bold text-emerald-600 dark:text-emerald-400">${targetInfo.minForO} to O</span>`
+            : `<span class="font-semibold text-rose-500 dark:text-rose-400">Not reachable</span>`;
+
+          const aPlusText = targetInfo.minForAPlus
+            ? `<span class="font-bold text-teal-600 dark:text-teal-400">${targetInfo.minForAPlus} to O</span>`
+            : `<span class="font-semibold text-rose-500 dark:text-rose-400">Not reachable</span>`;
+
+          radarGrid.innerHTML += `
+            <div class="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3.5 flex flex-col justify-between gap-2">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">${course.code} &bull; ${course.credits} Cr</span>
+                  <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">${course.name}</h3>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[11px] font-bold border ${badgeColorClasses(evalResult.gradeLabel)}">
+                  Now: ${evalResult.gradeLabel}
+                </span>
+              </div>
+              <div class="text-xs space-y-1 pt-1 border-t border-slate-200/80 dark:border-slate-700/80">
+                <div class="flex justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">Possible Range (B &rarr; O):</span>
+                  <span class="font-bold text-slate-800 dark:text-slate-200">${targetInfo.minSubjectGrade} &rarr; ${targetInfo.maxSubjectGrade}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">S2 Needed for <strong>O</strong>:</span>
+                  <span>${oText}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">S2 Needed for <strong>A+</strong>:</span>
+                  <span>${aPlusText}</span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // S2 Quick Scenario Pills
+          const scenarioButtonsHtml = targetInfo.outcomes.map(o => {
+            const isSelected = Number(course.s2) === o.s2Points;
+            return `
+              <button
+                type="button"
+                data-course-id="${course.id}"
+                data-s2-points="${o.s2Points}"
+                class="s2-preset-btn px-2 py-1 rounded text-[11px] font-semibold border transition cursor-pointer ${
+                  isSelected
+                    ? 'bg-[#007367] text-white border-[#007367]'
+                    : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-[#007367]'
+                }"
+              >
+                S2=${o.s2Label} &rarr; ${o.resultingLabel}
+              </button>
+            `;
+          }).join('');
+
+          const labInputHtml = course.type === 'theory_lab' ? `
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Lab (30%)</label>
+              ${renderGradeSelect(course.id, 'lab', course.lab)}
+            </div>
+          ` : '';
+
+          const deleteBtnHtml = course.custom ? `
+            <button
+              type="button"
+              data-delete-id="${course.id}"
+              class="delete-course-btn text-xs text-rose-500 hover:text-rose-700 font-semibold ml-2 cursor-pointer"
+              title="Remove custom course"
+            >
+              Remove
+            </button>
+          ` : '';
+
+          sessionalGrid.innerHTML += `
+            <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm space-y-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-bold text-[#007367] dark:text-teal-400">${course.code}</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
+                      ${course.credits} Credits &bull; ${course.type === 'theory_lab' ? '70:30 Theory+Lab' : '30:45:25 Theory'}
+                    </span>
+                    ${deleteBtnHtml}
+                  </div>
+                  <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-1">${course.name}</h3>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="inline-block px-3 py-1 rounded-lg text-sm font-extrabold border ${badgeColorClasses(evalResult.gradeLabel)}">
+                    ${evalResult.gradeLabel} (${evalResult.gradePoints})
+                  </span>
+                  <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 mt-1">
+                    Score: ${evalResult.rawScore.toFixed(4)}
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 ${course.type === 'theory_lab' ? 'sm:grid-cols-4' : 'sm:grid-cols-3'} gap-2.5">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Sessional 1 (30%)</label>
+                  ${renderGradeSelect(course.id, 's1', course.s1)}
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-[#007367] dark:text-teal-400 mb-1">Sessional 2 (45%)</label>
+                  ${renderGradeSelect(course.id, 's2', course.s2)}
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Internals (25%)</label>
+                  ${renderGradeSelect(course.id, 'internals', course.internals)}
+                </div>
+                ${labInputHtml}
+              </div>
+
+              <div class="pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1.5">
+                  Quick Sessional-2 What-If Preview:
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  ${scenarioButtonsHtml}
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          // 2. Direct Grade or Pass/Fail Card
+          const deleteBtnHtml = course.custom ? `
+            <button
+              type="button"
+              data-delete-id="${course.id}"
+              class="delete-course-btn text-xs text-rose-500 hover:text-rose-700 font-semibold cursor-pointer"
+            >
+              Remove
+            </button>
+          ` : '';
+
+          const controlHtml = course.type === 'pass_fail' ? `
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                data-course-id="${course.id}"
+                data-pass-val="true"
+                class="pass-toggle-btn py-2 px-3 rounded-lg text-xs font-bold border transition cursor-pointer ${
+                  course.passed
+                    ? 'bg-emerald-600 text-white border-emerald-600'
+                    : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700'
+                }"
+              >
+                Pass &rarr; O (10)
+              </button>
+              <button
+                type="button"
+                data-course-id="${course.id}"
+                data-pass-val="false"
+                class="pass-toggle-btn py-2 px-3 rounded-lg text-xs font-bold border transition cursor-pointer ${
+                  !course.passed
+                    ? 'bg-rose-600 text-white border-rose-600'
+                    : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700'
+                }"
+              >
+                Fail &rarr; F (0)
+              </button>
+            </div>
+          ` : `
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Final Subject Grade</label>
+              ${renderGradeSelect(course.id, 'directGrade', course.directGrade)}
+            </div>
+          `;
+
+          directGrid.innerHTML += `
+            <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex flex-col justify-between gap-3">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-[#007367] dark:text-teal-400">${course.code}</span>
+                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
+                      ${course.credits} Credits
+                    </span>
+                    ${deleteBtnHtml}
+                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white mt-1 leading-snug">${course.name}</h3>
+                </div>
+                <span class="px-2.5 py-1 rounded-lg text-xs font-extrabold border shrink-0 ${badgeColorClasses(evalResult.gradeLabel)}">
+                  ${evalResult.gradeLabel}
+                </span>
+              </div>
+              ${controlHtml}
+            </div>
+          `;
+        }
+
+        // 3. CGPA Table Row
+        tableBody.innerHTML += `
+          <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+            <td class="py-3 px-4 font-mono text-xs font-semibold text-slate-600 dark:text-slate-300">${course.code}</td>
+            <td class="py-3 px-4 font-medium text-slate-900 dark:text-white">${course.name}</td>
+            <td class="py-3 px-4 text-xs text-slate-500 dark:text-slate-400">${evalResult.structureLabel}</td>
+            <td class="py-3 px-4 text-center font-semibold">${course.credits}</td>
+            <td class="py-3 px-4 text-center font-mono text-xs text-slate-600 dark:text-slate-300">
+              ${evalResult.rawScore !== null ? evalResult.rawScore.toFixed(4) : '—'}
+            </td>
+            <td class="py-3 px-4 text-center">
+              <span class="inline-block px-2 py-0.5 rounded text-xs font-bold border ${badgeColorClasses(evalResult.gradeLabel)}">
+                ${evalResult.gradeLabel}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-center font-semibold">${evalResult.gradePoints}</td>
+            <td class="py-3 px-4 text-right font-bold text-slate-900 dark:text-white">${weightedPts}</td>
+          </tr>
+        `;
+      });
+
+      // Exact unrounded CGPA calculation
+      const exactCgpa = totalCredits > 0 ? (totalWeightedPoints / totalCredits) : 0;
+      const cgpaString = exactCgpa.toFixed(4);
+      const overallGrade = scoreToGrade(exactCgpa);
+
+      document.getElementById('exactCgpaDisplay').textContent = cgpaString;
+      document.getElementById('tableExactCgpa').textContent = cgpaString;
+      document.getElementById('overallGradeBadge').textContent = `Grade: ${overallGrade.label}`;
+      document.getElementById('cgpaFormulaSummary').textContent =
+        `Total Weighted Points: ${totalWeightedPoints} ÷ ${totalCredits} Credits`;
+      document.getElementById('totalCreditsDisplay').textContent = totalCredits;
+      document.getElementById('courseCountSummary').textContent =
+        `${courses.length} course${courses.length === 1 ? '' : 's'} active in semester`;
+
+      document.getElementById('tableTotalCredits').textContent = totalCredits;
+      document.getElementById('tableFinalGrade').textContent = overallGrade.label;
+      document.getElementById('tableTotalPoints').textContent = totalWeightedPoints;
+
+      attachDynamicListeners();
+    }
+
+    function attachDynamicListeners() {
+      document.querySelectorAll('.grade-select').forEach(sel => {
+        sel.addEventListener('change', e => {
+          const id = e.target.getAttribute('data-course-id');
+          const field = e.target.getAttribute('data-field');
+          const val = Number(e.target.value);
+          const target = courses.find(c => c.id === id);
+          if (target) {
+            target[field] = val;
+            renderAll();
+          }
+        });
+      });
+
+      document.querySelectorAll('.s2-preset-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const id = e.currentTarget.getAttribute('data-course-id');
+          const pts = Number(e.currentTarget.getAttribute('data-s2-points'));
+          const target = courses.find(c => c.id === id);
+          if (target) {
+            target.s2 = pts;
+            renderAll();
+          }
+        });
+      });
+
+      document.querySelectorAll('.pass-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const id = e.currentTarget.getAttribute('data-course-id');
+          const passed = e.currentTarget.getAttribute('data-pass-val') === 'true';
+          const target = courses.find(c => c.id === id);
+          if (target) {
+            target.passed = passed;
+            renderAll();
+          }
+        });
+      });
+
+      document.querySelectorAll('.delete-course-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const id = e.currentTarget.getAttribute('data-delete-id');
+          courses = courses.filter(c => c.id !== id);
+          renderAll();
+        });
+      });
+    }
+
+    // Light / Dark Mode Handling
+    const htmlEl = document.documentElement;
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        htmlEl.classList.add('dark');
+        themeIcon.textContent = '☀️';
+        themeLabel.textContent = 'Light';
+      } else {
+        htmlEl.classList.remove('dark');
+        themeIcon.textContent = '🌙';
+        themeLabel.textContent = 'Dark';
+      }
+      localStorage.setItem('gitam_calc_theme', theme);
+    }
+
+    const savedTheme = localStorage.getItem('gitam_calc_theme') || 'light';
+    applyTheme(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const nextTheme = htmlEl.classList.contains('dark') ? 'light' : 'dark';
+      applyTheme(nextTheme);
+    });
+
+    // Reset Button
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      courses = JSON.parse(JSON.stringify(DEFAULT_COURSES));
+      renderAll();
+    });
+
+    // Add Course Modal Logic
+    const modal = document.getElementById('addCourseModal');
+    const openModalBtn = document.getElementById('openAddModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const confirmAddCourseBtn = document.getElementById('confirmAddCourseBtn');
+    const typeButtons = document.querySelectorAll('.course-type-btn');
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+
+    typeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedModalType = btn.getAttribute('data-type');
+        typeButtons.forEach(b => {
+          b.classList.remove('border-[#007367]', 'bg-teal-50/70', 'dark:bg-teal-950/40');
+          b.classList.add('border-slate-200', 'dark:border-slate-700');
+        });
+        btn.classList.remove('border-slate-200', 'dark:border-slate-700');
+        btn.classList.add('border-[#007367]', 'bg-teal-50/70', 'dark:bg-teal-950/40');
+      });
+    });
+
+    confirmAddCourseBtn.addEventListener('click', () => {
+      const codeInput = document.getElementById('newCourseCode').value.trim() || 'CUSTOM101';
+      const nameInput = document.getElementById('newCourseName').value.trim() || 'Custom Elective Course';
+      const creditsInput = Math.max(1, Math.min(10, Number(document.getElementById('newCourseCredits').value) || 3));
+
+      const newCourse = {
+        id: 'custom_' + Date.now(),
+        code: codeInput.toUpperCase(),
+        name: nameInput,
+        type: selectedModalType,
+        credits: creditsInput,
+        custom: true
+      };
+
+      if (selectedModalType === 'theory_lab') {
+        newCourse.s1 = 9;
+        newCourse.s2 = 9;
+        newCourse.internals = 10;
+        newCourse.lab = 10;
+      } else if (selectedModalType === 'theory') {
+        newCourse.s1 = 9;
+        newCourse.s2 = 9;
+        newCourse.internals = 10;
+      } else {
+        newCourse.directGrade = 10;
+      }
+
+      courses.push(newCourse);
+      document.getElementById('newCourseCode').value = '';
+      document.getElementById('newCourseName').value = '';
+      document.getElementById('newCourseCredits').value = '3';
+      closeModal();
+      renderAll();
+    });
+
+    // Initial Render
+    renderAll();
+  </script>
+</body>
+</html>
